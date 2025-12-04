@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
     wget \
     && rm -rf /var/lib/apt/lists/*
 
-COPY /ejercicio-2/zzz-matomo.ini /usr/local/etc/php/conf.d/zzz-matomo.ini
+COPY zzz-matomo.ini /usr/local/etc/php/conf.d/zzz-matomo.ini
 
 RUN chown -R www-data:www-data /var/www/html
 
