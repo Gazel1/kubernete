@@ -9,7 +9,7 @@ resource "kubernetes_deployment" "matomo" {
         container {
           name  = "matomo"
           image = var.matomo_image 
-          port { container_port = 80 }
+          port { container_port = 81 }
           env {
             name = "MATOMO_DATABASE_HOST"
             value = "mariadb-service"
@@ -49,7 +49,7 @@ resource "kubernetes_service" "matomo" {
     type = "NodePort"
     port {
       port        = 80
-      target_port = 80
+      target_port = 81
       node_port   = 30081
     }
   }
