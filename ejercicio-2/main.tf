@@ -3,10 +3,43 @@ terraform {
     kubernetes = {
       source = "hashicorp/kubernetes"
     }
+    kind = {
+      source = "tehcyx/kind"
+    }
   }
 }
 
 provider "kubernetes" {
-  config_path = "~/.kube/config"
-  config_context = "kind-cluster-ej2" # Asegúrate que coincida con el nombre del cluster
+  config_path    = "~/.kube/config"
+  config_context = "kind-cluster-ej2"
+}
+
+# PVC para MariaDB
+resource "kubernetes_persistent_volume_claim" "mariadb_pvc" {
+  metadata {
+    name = "mariadb-pvc"
+  }
+  spec {
+    access_modes = ["ReadWriteOnce"]
+    resources {
+      requests = {
+        storage = "5Gi"
+      }
+    }
+  }
+}
+
+# PVC para Matomo
+resource "kubernetes_persistent_volume_claim" "matomo_pvc" {
+  metadata {
+    name = "matomo-pvc"
+  }
+  spec {
+    access_modes = ["ReadWriteOnce"]
+    resources {
+      requests = {
+        storage = "10Gi"
+      }
+    }
+  }
 }

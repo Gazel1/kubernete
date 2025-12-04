@@ -1,0 +1,47 @@
+name: Build and Push Matomo Image to Docker Hub
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'ejercicio-2/Dockerfile'
+      - 'ejercicio-2/zzz-matomo.ini'
+      - '.github/workflows/build-matomo.yml'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      
+      - name: Extract version from commit
+        id: meta
+        run: |
+          echo "version=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_OUTPUT
+      
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./ejercicio-2
+          file: ./ejercicio-2/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/matomo-custom:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/matomo-custom:${{ steps.meta.outputs.version }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
