@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - master
     paths:
       - 'ejercicio-2/Dockerfile'
       - 'ejercicio-2/zzz-matomo.ini'
