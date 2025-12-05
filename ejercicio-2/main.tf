@@ -15,7 +15,7 @@ provider "kubernetes" {
 }
 
 # PVC para MariaDB
-resource "kubernetes_persistent_volume_claim" "mariadb_pvc" {
+resource "kubernetes_persistent_volume_claim_v1" "mariadb_pvc" {
   metadata {
     name = "mariadb-pvc"
   }
@@ -30,7 +30,7 @@ resource "kubernetes_persistent_volume_claim" "mariadb_pvc" {
 }
 
 # PVC para Matomo
-resource "kubernetes_persistent_volume_claim" "matomo_pvc" {
+resource "kubernetes_persistent_volume_claim_v1" "matomo_pvc" {
   metadata {
     name = "matomo-pvc"
   }

@@ -14,7 +14,31 @@ spec:
       initContainers:
       - name: init-sites-volume
         image: drupal:latest
-        command: ['/bin/bash', '-c', 'cp -r /var/www/html/sites/* /mnt/sites/']
+        command:
+        - /bin/bash
+        - -c
+        - |
+          echo "Iniciando copia de archivos sites..."
+          if [ -d /var/www/html/sites ]; then
+            cp -r /var/www/html/sites/* /mnt/sites/ 2>/dev/null || true
+            
+            # Crear settings.php si no existe
+            if [ ! -f /mnt/sites/default/settings.php ]; then
+              echo "Creando settings.php desde default.settings.php..."
+              cp /mnt/sites/default/default.settings.php /mnt/sites/default/settings.php
+            fi
+            
+            # Asegurar permisos de escritura
+            chmod 666 /mnt/sites/default/settings.php
+            chmod 777 /mnt/sites/default
+            
+            echo "Archivos copiados exitosamente"
+            echo "Contenido de /mnt/sites/default:"
+            ls -la /mnt/sites/default/
+          else
+            echo "ERROR: /var/www/html/sites no existe"
+            exit 1
+          fi
         volumeMounts:
         - name: drupal-storage
           mountPath: /mnt/sites

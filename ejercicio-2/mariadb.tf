@@ -1,4 +1,4 @@
-resource "kubernetes_deployment" "mariadb" {
+resource "kubernetes_deployment_v1" "mariadb" {
   metadata { name = "mariadb" }
   spec {
     replicas = 1
@@ -41,7 +41,7 @@ resource "kubernetes_deployment" "mariadb" {
   }
 }
 
-resource "kubernetes_service" "mariadb" {
+resource "kubernetes_service_v1" "mariadb" {
   metadata { name = "mariadb-service" }
   spec {
     selector = { app = "mariadb" }

@@ -1,4 +1,4 @@
-resource "kubernetes_deployment" "matomo" {
+resource "kubernetes_deployment_v1" "matomo" {
   metadata { name = "matomo" }
   spec {
     replicas = 1
@@ -42,7 +42,7 @@ resource "kubernetes_deployment" "matomo" {
   }
 }
 
-resource "kubernetes_service" "matomo" {
+resource "kubernetes_service_v1" "matomo" {
   metadata { name = "matomo-service" }
   spec {
     selector = { app = "matomo" }
