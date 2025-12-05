@@ -1,5 +1,7 @@
 FROM matomo:latest
 
+# Custom Matomo Image with 512M PHP Memory
+# Configured for Kubernetes deployment
 ENV PHP_MEMORY_LIMIT=512M
 
 RUN apt-get update && apt-get install -y \
