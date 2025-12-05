@@ -3,7 +3,7 @@ name: Build and Push Matomo Image to Docker Hub
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - 'ejercicio-2/Dockerfile'
       - 'ejercicio-2/zzz-matomo.ini'
